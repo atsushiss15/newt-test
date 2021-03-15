@@ -1,7 +1,30 @@
 import Head from 'next/head'
+import { useEffect } from 'react';
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
+
+  useEffect(() => {
+    var didInit = false;
+    function initMunchkin() {
+      if(didInit === false) {
+        didInit = true;
+        Munchkin.init('452-MFY-481');
+      }
+    }
+    var s = document.createElement('script');
+    s.type = 'text/javascript';
+    s.async = true;
+    s.src = '//munchkin.marketo.net/munchkin.js';
+    s.onreadystatechange = function() {
+      if (this.readyState == 'complete' || this.readyState == 'loaded') {
+        initMunchkin();
+      }
+    };
+    s.onload = initMunchkin;
+    document.getElementsByTagName('head')[0].appendChild(s);
+  }, [])
+
   return (
     <div className={styles.container}>
       <Head>
